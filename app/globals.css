@@ -5,6 +5,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --navbar-height: 64px; /* Navbar yüksekliği */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,4 +19,17 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Tüm ekranı kapla */
+}
+
+main {
+  flex: 1; /* Main içeriğin tüm kullanılabilir alanı kaplamasını sağla */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* İçeriği tam genişlikte hizala */
+  padding: 1rem; /* İçerik boşluğu */
 }
