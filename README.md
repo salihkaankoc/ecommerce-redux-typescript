@@ -10,6 +10,7 @@ Bu proje, modern bir e-ticaret uygulaması oluşturmak için **Next.js**, **Redu
   - Ürün ekleme.
   - Ürün miktarını artırma ve azaltma.
   - Ürünleri kaldırma.
+  - Sepeti tamamen temizleme.
 - **Responsive Tasarım**: Tüm cihazlarda uyumlu ve kullanıcı dostu.
 - **Redux ile Durum Yönetimi**: Uygulama durumunun kolay yönetimi için Redux kullanıldı.
 
@@ -44,35 +45,59 @@ Bu proje, modern bir e-ticaret uygulaması oluşturmak için **Next.js**, **Redu
 - **Ana Sayfa**: Öne çıkan ürünlerin listelendiği ve ürünlere hızlı erişim sağlanan bir arayüz.
 - **Ürünler Sayfası**: Tüm ürünlerin modern bir grid düzeninde listelendiği sayfa.
 - **Ürün Detay Sayfası**: Seçilen ürün hakkında detaylı bilgi ve sepete ekleme butonu.
-- **Sepet Sayfası**: Eklenen ürünlerin miktarlarını artırıp azaltma ve ürünleri kaldırma seçenekleri.
+- **Sepet Sayfası**: Eklenen ürünlerin miktarlarını artırıp azaltma, ürünleri kaldırma ve sepeti temizleme seçenekleri.
 
 ## Redux İşlevleri
 
 ### `addToCart`
-Sepete ürün ekler.
+Sepete ürün ekler. Eğer ürün zaten sepette varsa, miktarını artırır.
 ```typescript
-export const addToCart = (product: any) => ({
-  type: "cart/addToCart",
-  payload: product,
-});
+export const addToCart = (state, action: PayloadAction<CartItem>) => {
+    const existingItem = state.items.find((item) => item.id === action.payload.id);
+    if(existingItem) {
+        existingItem.quantity += action.payload.quantity;
+    } else {
+        state.items.push(action.payload);
+    }
+};
+```
+
+### `removeFromCart`
+Belirli bir ürünü sepetten kaldırır.
+```typescript
+export const removeFromCart = (state, action: PayloadAction<number>) => {
+    state.items = state.items.filter((item) => item.id !== action.payload);
+};
+```
+
+### `clearCart`
+Sepeti tamamen temizler.
+```typescript
+export const clearCart = (state) => {
+    state.items = [];
+};
 ```
 
 ### `increaseQuantity`
 Belirli bir ürünün miktarını artırır.
 ```typescript
-export const increaseQuantity = (productId: number) => ({
-  type: "cart/increaseQuantity",
-  payload: productId,
-});
+export const increaseQuantity = (state, action: PayloadAction<number>) => {
+    const item = state.items.find((item) => item.id === action.payload);
+    if(item) {
+        item.quantity += 1;
+    }
+};
 ```
 
 ### `decreaseQuantity`
-Belirli bir ürünün miktarını azaltır. Miktar sıfır olduğunda, ürün sepetten kaldırılır.
+Belirli bir ürünün miktarını azaltır. Miktar 1'den küçük olamaz.
 ```typescript
-export const decreaseQuantity = (productId: number) => ({
-  type: "cart/decreaseQuantity",
-  payload: productId,
-});
+export const decreaseQuantity = (state, action: PayloadAction<number>) => {
+    const item = state.items.find((item) => item.id === action.payload);
+    if(item && item.quantity > 1) {
+        item.quantity -= 1;
+    }
+};
 ```
 
 ## Katkıda Bulunma
