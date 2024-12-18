@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛒 Next.js + Redux E-Commerce Application
 
-## Getting Started
+Bu proje, modern bir e-ticaret uygulaması oluşturmak için **Next.js**, **Redux** ve **Tailwind CSS** kullanılarak geliştirilmiştir. Kullanıcılar ürünleri görüntüleyebilir, detaylarını inceleyebilir ve sepetlerine ekleyerek miktarlarını yönetebilir.
 
-First, run the development server:
+## Özellikler
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Ürün Listesi**: Tüm ürünlerin modern bir grid düzeninde listelenmesi.
+- **Ürün Detay Sayfası**: Ürün bilgileri ve sepete ekleme seçeneği.
+- **Sepet Yönetimi**:
+  - Ürün ekleme.
+  - Ürün miktarını artırma ve azaltma.
+  - Ürünleri kaldırma.
+- **Responsive Tasarım**: Tüm cihazlarda uyumlu ve kullanıcı dostu.
+- **Redux ile Durum Yönetimi**: Uygulama durumunun kolay yönetimi için Redux kullanıldı.
+
+## Kurulum
+
+1. Depoyu klonlayın:
+   ```bash
+   git clone https://github.com/kullanici-adiniz/ecommerce-app.git
+   cd ecommerce-app
+   ```
+
+2. Bağımlılıkları yükleyin:
+   ```bash
+   npm install
+   ```
+
+3. Çevre değişkenlerini ayarlayın:
+   Proje kök dizininde `.env.local` dosyası oluşturun ve aşağıdaki değişkeni ekleyin:
+   ```env
+   NEXT_PUBLIC_API_URL=http://localhost:3000
+   ```
+
+4. Uygulamayı çalıştırın:
+   ```bash
+   npm run dev
+   ```
+
+   Uygulama şu adreste çalışacaktır: [http://localhost:3000](http://localhost:3000)
+
+## Kullanım
+
+- **Ana Sayfa**: Öne çıkan ürünlerin listelendiği ve ürünlere hızlı erişim sağlanan bir arayüz.
+- **Ürünler Sayfası**: Tüm ürünlerin modern bir grid düzeninde listelendiği sayfa.
+- **Ürün Detay Sayfası**: Seçilen ürün hakkında detaylı bilgi ve sepete ekleme butonu.
+- **Sepet Sayfası**: Eklenen ürünlerin miktarlarını artırıp azaltma ve ürünleri kaldırma seçenekleri.
+
+## Redux İşlevleri
+
+### `addToCart`
+Sepete ürün ekler.
+```typescript
+export const addToCart = (product: any) => ({
+  type: "cart/addToCart",
+  payload: product,
+});
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### `increaseQuantity`
+Belirli bir ürünün miktarını artırır.
+```typescript
+export const increaseQuantity = (productId: number) => ({
+  type: "cart/increaseQuantity",
+  payload: productId,
+});
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### `decreaseQuantity`
+Belirli bir ürünün miktarını azaltır. Miktar sıfır olduğunda, ürün sepetten kaldırılır.
+```typescript
+export const decreaseQuantity = (productId: number) => ({
+  type: "cart/decreaseQuantity",
+  payload: productId,
+});
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Katkıda Bulunma
 
-## Learn More
+1. Bu projeyi **fork**'layın.
+2. Yeni bir **branch** oluşturun: `git checkout -b yeni-ozellik`.
+3. Değişikliklerinizi yapın ve commit edin: `git commit -m "Yeni özellik ekledim"`.
+4. **Pull request** gönderin.
 
-To learn more about Next.js, take a look at the following resources:
+## Lisans
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Bu proje **MIT Lisansı** ile lisanslanmıştır.
