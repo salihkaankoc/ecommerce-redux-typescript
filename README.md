@@ -19,7 +19,7 @@ Bu proje, modern bir e-ticaret uygulaması oluşturmak için **Next.js**, **Redu
 1. Depoyu klonlayın:
    ```bash
    git clone https://github.com/salihkaankoc/ecommerce-redux-typescript.git
-   cd ecommerce-app
+   cd ecommerce-redux-typescript
    ```
 
 2. Bağımlılıkları yükleyin:
